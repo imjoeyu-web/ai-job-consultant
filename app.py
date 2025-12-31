@@ -602,7 +602,7 @@ PREDEFINED_ANSWERS = {
 # 메인 화면
 # ============================================================
 st.markdown(
-    "<h2 style='color: #0066cc;'>SeSAC 성동캠퍼스 AI챗봇</h2>", unsafe_allow_html=True
+    "<h2 style='color: #0066cc;'>SeSAC AI 취업 컨설턴트</h2>", unsafe_allow_html=True
 )
 st.caption(
     "🚀 AI 취업 컨설턴트 | PDF 공고 분석부터 최신 채용 트렌드 검색까지, 당신만의 합격 전략을 설계합니다."
