@@ -4,7 +4,7 @@ import os
 import requests
 import re
 import json
-from langchain_openai import ChatOpenAI, OpenAIEmbeddings
+from langchain_google_genai import ChatGoogleGenerativeAI, GoogleGenerativeAIEmbeddings
 from langchain_core.messages import HumanMessage, AIMessage, SystemMessage
 from langchain_community.document_loaders import PyPDFDirectoryLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
@@ -331,7 +331,7 @@ def perform_indexing():
                 chunk_size=800, chunk_overlap=100
             )
             splits = text_splitter.split_documents(documents)
-            embeddings = OpenAIEmbeddings(api_key=st.secrets["OPENAI_API_KEY"])
+            embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001", google_api_key=st.secrets["GOOGLE_API_KEY"])
             vectorstore = FAISS.from_documents(documents=splits, embedding=embeddings)
             st.session_state.vector_store = vectorstore
             st.success(f"인덱싱 완료! 총 {len(splits)}개의 지식 조각을 생성했습니다.")
@@ -453,8 +453,8 @@ def determine_search_need(query: str, api_key: str) -> dict:
     LLM을 사용하여 질문이 웹 검색이 필요한지 판단
     Returns: {"need_search": bool, "reason": str, "search_query": str}
     """
-    llm = ChatOpenAI(
-        model="gpt-4o-mini",
+    llm = ChatGoogleGenerativeAI(
+        model="gemini-1.5-flash",
         api_key=api_key,
         temperature=0.7,
     )
@@ -681,9 +681,9 @@ if final_query:
                     )
                     context = "\n\n".join([doc.page_content for doc in docs])
 
-                llm = ChatOpenAI(
-                    model="gpt-4o-mini",
-                    api_key=st.secrets["OPENAI_API_KEY"],
+                llm = ChatGoogleGenerativeAI(
+                    model="gemini-1.5-flash",
+                    google_api_key=st.secrets["GOOGLE_API_KEY"],
                     streaming=True,
                     temperature=0.7,
                 )
@@ -781,9 +781,9 @@ if final_query:
                         web_context += f"내용: {result['snippet']}\n"
 
                     # LLM으로 웹 검색 결과 분석
-                    llm = ChatOpenAI(
-                        model="gpt-4o-mini",
-                        api_key=st.secrets["OPENAI_API_KEY"],
+                    llm = ChatGoogleGenerativeAI(
+                        model="gemini-1.5-flash",
+                        google_api_key=st.secrets["GOOGLE_API_KEY"],
                         streaming=True,
                         temperature=0.7,
                     )
@@ -815,9 +815,9 @@ if final_query:
                     # 일반 LLM 모드 (웹 검색 불필요)
                     mode_badge = '<span class="mode-badge" style="background-color:#fff3e0;color:#e65100;">🧠 AI 직접 답변</span>'
 
-                    llm = ChatOpenAI(
-                        model="gpt-4o-mini",
-                        api_key=st.secrets["OPENAI_API_KEY"],
+                    llm = ChatGoogleGenerativeAI(
+                        model="gemini-1.5-flash",
+                        google_api_key=st.secrets["GOOGLE_API_KEY"],
                         streaming=True,
                         temperature=0.7,
                     )
