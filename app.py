@@ -715,7 +715,7 @@ if final_query:
                 # AUTO 모드: LLM이 웹 검색 필요 여부 판단
                 with st.spinner("질문 분석 중..."):
                     search_decision = determine_search_need(
-                        final_query, st.secrets["OPENAI_API_KEY"]
+                        final_query, st.secrets["GOOGLE_API_KEY"]
                     )
 
                 if search_decision["need_search"]:
