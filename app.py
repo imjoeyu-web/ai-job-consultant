@@ -507,7 +507,7 @@ def determine_search_need(query: str, api_key: str) -> dict:
 # 사이드바
 # ============================================================
 with st.sidebar:
-    logo_b64 = get_base64_image("kirby-puffy.png")
+    logo_b64 = get_base64_image("rocket-logo.png")
     if logo_b64:
         st.markdown(
             f'<img src="data:image/png;base64,{logo_b64}" width="100%">',
